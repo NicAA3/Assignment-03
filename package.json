@@ -1,0 +1,22 @@
+{
+  "name": "assignment-03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "runt-tests": "npx playwright test",
+    "ui-mode": "npx playwright test --ui"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "@playwright/test": "^1.47.2",
+    "@types/node": "^22.7.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "wait-on": "^8.0.1"
+  }
+}
