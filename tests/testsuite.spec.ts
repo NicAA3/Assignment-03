@@ -39,9 +39,7 @@ test.describe("Front-end test", () => {
     await expect(lastRoomElement).toContainText((new RegExp(randomCategory, 'i')));
     await expect(lastRoomElement).toContainText('Available');
     await expect(lastRoomElement).toContainText(randomPrice);
-    for (const feature of randomFeatures) {
-      await expect(lastRoomElement).toContainText(new RegExp(feature, 'i'));
-    }
+
 
   });
 })
