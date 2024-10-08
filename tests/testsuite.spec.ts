@@ -81,7 +81,7 @@ test.describe("Backend test", () => {
       floor: payload.floor,
       available: payload.available,
       price: payload.price,
-      // features: payload.features,
+      features: payload.features,
     });
   });
 });
