@@ -46,6 +46,7 @@ test.describe("Front-end test", () => {
 
 test.describe("Backend test", () => {
   let apiHelper: APIHelper;
+  let token: string;
   test.beforeAll(async ({ request }) => {
     // Initialize the APIHelper class
     apiHelper = new APIHelper('http://localhost:3000', `${process.env.TEST_USERNAME}`, `${process.env.TEST_PASSWORD}`);
@@ -64,10 +65,12 @@ test.describe("Backend test", () => {
     expect(loginData).toHaveProperty('token'); // Assert the token exists
 
     // Store the token in the APIHelper instance for future use
-    apiHelper.setToken(loginData.token);
+    //apiHelper.setToken(loginData.token);
+    token = loginData.token;
+    apiHelper.setToken(token);
   });
 
-  test('Test case 02 - Create Room', async ({ request }) => {
+  test('Test case 03 - Create Room', async ({ request }) => {
     const payload = generateRandomRoomsPayload();
     const createPostResponse = await apiHelper.postNewRoom(request, payload);
     expect(createPostResponse.ok()).toBeTruthy();
@@ -82,6 +85,35 @@ test.describe("Backend test", () => {
       features: payload.features,
     });
   });
+  test('Test case 04, get all rooms', async ({ request }) => {
+
+    const authPayload = JSON.stringify({
+      username: `${process.env.TEST_USERNAME}`,
+      token: token,
+    })
+    const roomsResponse = await request.get('http://localhost:3000/api/rooms', {
+      headers: {
+        'x-user-auth': authPayload,
+        'Content-Type': 'application/json'
+      }
+    })
+    expect(roomsResponse.ok()).toBeTruthy();
+    const roomsData = await roomsResponse.json();
+    expect(roomsData.length).toBeGreaterThan(0);
+    expect(roomsData[0]).toMatchObject({
+      "id": 1,
+      "created": "2020-01-03T12:00:00.000Z",
+      "category": "double",
+      "floor": 1,
+      "number": 101,
+      "available": true,
+      "price": 1500,
+      "features": [
+        "balcony",
+        "ensuite"
+      ]
+    });
+  })
 });
 
 
